@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Pop Movie</string>
+    <string name="movie_details">Movie Details</string>
+    <string name="average">%1$s/10.0</string>
+    <string name="sort_by_top_rated">Sort by top rated</string>
+    <string name="sort_by_popularity">Sort by popularity</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="network_error">Network Error</string>
+    <string name="no_network">Wait for network....</string>
+</resources>

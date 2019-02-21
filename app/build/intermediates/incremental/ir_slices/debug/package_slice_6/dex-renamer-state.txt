@@ -1,0 +1,4 @@
+#Thu Feb 21 10:43:19 CET 2019
+base.0=/Users/Umut/movies_stage_2/app/build/intermediates/transforms/dexMerger/debug/6
+path.0=classes.dex
+renamed.0=classes.dex
