@@ -20,6 +20,7 @@ public class FetchMovies extends AsyncTask<String, Void, Movie[]> {
 
     private final static String TMDB_BASE_URL = "https://api.themoviedb.org/3/movie/";
     private final static String API_KEY_PARAM = "api_key";
+    private static final String HTTPS_IMAGE_TMDB = "https://image.tmdb.org/t/p/w185";
     private final String LOG_TAG = FetchMovies.class.getSimpleName();
     private final String mApiKey;
     private CallbackPostExecute mCallbackPostExecute;
@@ -99,10 +100,12 @@ public class FetchMovies extends AsyncTask<String, Void, Movie[]> {
             JSONObject movieData = resultsArray.getJSONObject(i);
 
             movies[i].setmOriginalTitle(movieData.getString("title"));
-            movies[i].setmPosterPath(movieData.getString("poster_path"));
+            movies[i].setmPosterPath(HTTPS_IMAGE_TMDB + movieData.getString("poster_path"));
             movies[i].setmOverview(movieData.getString("overview"));
             movies[i].setmVoteAverage(movieData.getDouble("vote_average"));
             movies[i].setmReleaseDate(movieData.getString("release_date"));
+            movies[i].setmId(movieData.getString("id"));
+
         }
         return movies;
     }

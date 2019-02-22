@@ -3,8 +3,10 @@
     <item
         android:id="@+id/action_avarage"
         android:title="@string/sort_by_top_rated" />
-
     <item
         android:id="@+id/action_pupolar"
         android:title="@string/sort_by_popularity" />
+    <item
+        android:id="@+id/action_favorites"
+        android:title="@string/favorites" />
 </menu>

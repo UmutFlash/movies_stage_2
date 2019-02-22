@@ -16,12 +16,13 @@ public class Movie implements Parcelable {
             return new Movie[size];
         }
     };
-    private static final String HTTPS_IMAGE_TMDB = "https://image.tmdb.org/t/p/w185";
+
     private String mOriginalTitle;
     private String mPosterPath;
     private String mOverview;
     private Double mVoteAverage;
     private String mReleaseDate;
+    private String mId;
 
     Movie() {
     }
@@ -36,6 +37,7 @@ public class Movie implements Parcelable {
             mVoteAverage = in.readDouble();
         }
         mReleaseDate = in.readString();
+        mId = in.readString();
     }
 
     String getmReleaseDate() {
@@ -62,9 +64,9 @@ public class Movie implements Parcelable {
         this.mOverview = mOverview;
     }
 
-    String getmPosterPath() {
-
-        return HTTPS_IMAGE_TMDB + mPosterPath;
+    String
+    getmPosterPath() {
+        return mPosterPath;
     }
 
     void setmPosterPath(String mPosterPath) {
@@ -77,6 +79,14 @@ public class Movie implements Parcelable {
 
     void setmOriginalTitle(String mOriginalTitle) {
         this.mOriginalTitle = mOriginalTitle;
+    }
+
+    public String getmId() {
+        return mId;
+    }
+
+    public void setmId(String mId) {
+        this.mId = mId;
     }
 
     @Override
@@ -96,7 +106,7 @@ public class Movie implements Parcelable {
             parcel.writeDouble(mVoteAverage);
         }
         parcel.writeString(mReleaseDate);
+        parcel.writeString(mId);
     }
-
 }
 

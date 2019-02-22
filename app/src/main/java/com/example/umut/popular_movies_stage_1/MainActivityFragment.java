@@ -2,9 +2,10 @@ package com.example.umut.popular_movies_stage_1;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.ConnectivityManager;
-import android.net.Network;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.TextView;
 
 public class MainActivityFragment extends Fragment implements FetchMovies.CallbackPostExecute {
 
@@ -27,13 +29,17 @@ public class MainActivityFragment extends Fragment implements FetchMovies.Callba
 
     private GridView mGridView;
 
+
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
-        mGridView = (GridView) rootView.findViewById(R.id.gridview);
+        mGridView = rootView.findViewById(R.id.gridview);
+
+
 
         if (savedInstanceState == null) {
             getMoviesFromTMDb(POPULARITY);
@@ -64,12 +70,13 @@ public class MainActivityFragment extends Fragment implements FetchMovies.Callba
 
     private void getMoviesFromTMDb(String sortMethod) {
 
-        if(isNetworkAvailable()) {
+        if (isNetworkAvailable()) {
             FetchMovies movieTask = new FetchMovies(APIKEY, this);
             movieTask.execute(sortMethod);
-        }else{
+        } else {
             AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
-            alertDialog.setTitle(getString(R.string.network_error)); alertDialog.setMessage(getString(R.string.no_network));
+            alertDialog.setTitle(getString(R.string.network_error));
+            alertDialog.setMessage(getString(R.string.no_network));
             alertDialog.show();
         }
     }
@@ -79,7 +86,7 @@ public class MainActivityFragment extends Fragment implements FetchMovies.Callba
         super.onSaveInstanceState(outState);
 
         Movie[] movies = new Movie[mGridView.getCount()];
-        for(int i = 0; i < mGridView.getCount(); i++){
+        for (int i = 0; i < mGridView.getCount(); i++) {
             movies[i] = (Movie) mGridView.getItemAtPosition(i);
         }
         outState.putParcelableArray(MOVIE, movies);
@@ -104,8 +111,53 @@ public class MainActivityFragment extends Fragment implements FetchMovies.Callba
             getMoviesFromTMDb(POPULARITY);
             return true;
         }
+        if (id == R.id.action_favorites) {
+            getFavorites();
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void getFavorites() {
+        Uri uri = FavoritesContentProvider.CONTENT_URI;
+        Cursor cursor = getActivity().getContentResolver()
+                .query(uri, null, null, null, null);
+        if (cursor != null && cursor.moveToFirst()) { //If there are existing favorited items
+            int resultsLength = cursor.getCount();
+            Movie[] movies = new Movie[resultsLength];
+            for (int i = 0; i < resultsLength; i++) {
+                movies[i] = new Movie();
+                String title = cursor
+                        .getString(cursor.getColumnIndex(FavoritesContentProvider.COLUMN_ORIGINAL_TITLE));
+                movies[i].setmOriginalTitle(title);
+
+                String id = cursor
+                        .getString(cursor.getColumnIndex(FavoritesContentProvider.COLUMN_MOVIE_ID));
+                movies[i].setmId(id);
+
+
+                movies[i].setmOverview(cursor
+                        .getString(cursor.getColumnIndex(FavoritesContentProvider.COLUMN_OVERVIEW)));
+
+                movies[i].setmPosterPath(cursor
+                        .getString(cursor.getColumnIndex(FavoritesContentProvider.COLUMN_POSTER_PATH)));
+
+                movies[i].setmVoteAverage(cursor
+                        .getDouble(cursor.getColumnIndex(FavoritesContentProvider.COLUMN_VOTE_AVERAGE)));
+
+                movies[i].setmReleaseDate(cursor
+                        .getString(cursor.getColumnIndex(FavoritesContentProvider.COLUMN_RELEASE_DATE)));
+                cursor.moveToNext();
+            }
+
+            mGridView.setAdapter(new MoviesAdapter(getActivity(), movies));
+        } else {
+            AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
+            alertDialog.setTitle(getString(R.string.favorites));
+            alertDialog.setMessage(getString(R.string.no_favorites));
+            alertDialog.show();
+        }
     }
 
     public boolean isNetworkAvailable() {

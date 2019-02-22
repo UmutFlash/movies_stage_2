@@ -35,6 +35,10 @@
         </activity>
 
         <provider
+            android:name="com.example.umut.popular_movies_stage_1.FavoritesContentProvider"
+            android:authorities="com.example.umut.popular_movies_stage_1"
+            android:exported="false" />
+        <provider
             android:name="com.squareup.picasso.PicassoProvider"
             android:authorities="com.example.umut.popular_movies_stage_1.com.squareup.picasso"
             android:exported="false" />

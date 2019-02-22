@@ -15,7 +15,6 @@ public class MoviesAdapter extends ArrayAdapter<Movie> {
 
     MoviesAdapter(Activity context, Movie[] movieCollection) {
         super(context, 0, movieCollection);
-
     }
 
     @NonNull
@@ -36,6 +35,4 @@ public class MoviesAdapter extends ArrayAdapter<Movie> {
 
         return convertView;
     }
-
-
 }

@@ -28,6 +28,10 @@
             android:label="@string/movie_details"
             android:parentActivityName=".MainActivity">
         </activity>
+        <provider
+            android:authorities="com.example.umut.popular_movies_stage_1"
+            android:name=".FavoritesContentProvider"
+            android:exported="false"/>
     </application>
 
 </manifest>

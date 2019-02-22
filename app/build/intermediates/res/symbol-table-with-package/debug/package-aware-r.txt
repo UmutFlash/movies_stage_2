@@ -131,6 +131,11 @@ attr editTextStyle
 attr elevation
 attr emptyVisibility
 attr expandActivityOverflowButtonDrawable
+attr fastScrollEnabled
+attr fastScrollHorizontalThumbDrawable
+attr fastScrollHorizontalTrackDrawable
+attr fastScrollVerticalThumbDrawable
+attr fastScrollVerticalTrackDrawable
 attr font
 attr fontFamily
 attr fontProviderAuthority
@@ -158,6 +163,7 @@ attr isLightTheme
 attr itemPadding
 attr keylines
 attr layout
+attr layoutManager
 attr layout_anchor
 attr layout_anchorGravity
 attr layout_behavior
@@ -254,6 +260,7 @@ attr radioButtonStyle
 attr ratingBarStyle
 attr ratingBarStyleIndicator
 attr ratingBarStyleSmall
+attr reverseLayout
 attr searchHintIcon
 attr searchIcon
 attr searchViewStyle
@@ -265,11 +272,13 @@ attr showDividers
 attr showText
 attr showTitle
 attr singleChoiceItemLayout
+attr spanCount
 attr spinBars
 attr spinnerDropDownItemStyle
 attr spinnerStyle
 attr splitTrack
 attr srcCompat
+attr stackFromEnd
 attr state_above_anchor
 attr statusBarBackground
 attr subMenuArrow
@@ -507,6 +516,9 @@ dimen compat_button_padding_vertical_material
 dimen compat_control_corner_material
 dimen disabled_alpha_material_dark
 dimen disabled_alpha_material_light
+dimen fastscroll_default_thickness
+dimen fastscroll_margin
+dimen fastscroll_minimum_range
 dimen highlight_alpha_material_colored
 dimen highlight_alpha_material_dark
 dimen highlight_alpha_material_light
@@ -514,6 +526,9 @@ dimen hint_alpha_material_dark
 dimen hint_alpha_material_light
 dimen hint_pressed_alpha_material_dark
 dimen hint_pressed_alpha_material_light
+dimen item_touch_helper_max_drag_scroll_per_frame
+dimen item_touch_helper_swipe_escape_max_velocity
+dimen item_touch_helper_swipe_escape_velocity
 dimen notification_action_icon_size
 dimen notification_action_text_size
 dimen notification_big_circle_margin
@@ -623,6 +638,7 @@ drawable abc_vector_test
 drawable ic_launcher_background
 drawable ic_launcher_foreground
 drawable ic_picture
+drawable ic_video
 drawable notification_action_background
 drawable notification_bg
 drawable notification_bg_low
@@ -655,6 +671,7 @@ id action_bar_title
 id action_container
 id action_context_bar
 id action_divider
+id action_favorites
 id action_image
 id action_menu_divider
 id action_menu_presenter
@@ -674,6 +691,7 @@ id barrier
 id beginning
 id blocking
 id bottom
+id btn_favorite
 id buttonPanel
 id cancel_action
 id center
@@ -715,7 +733,9 @@ id image
 id info
 id invisible
 id italic
+id item_touch_helper_previous_elevation
 id iv_poster
+id iv_trailer
 id left
 id line1
 id line3
@@ -739,6 +759,8 @@ id poster_image
 id progress_circular
 id progress_horizontal
 id radio
+id recyclerview_reviews
+id recyclerview_trailers
 id right
 id right_icon
 id right_side
@@ -785,9 +807,14 @@ id titleDividerNoCustom
 id title_template
 id top
 id topPanel
+id tv_author
+id tv_content
 id tv_original_title
 id tv_overview
 id tv_release_date
+id tv_review_header
+id tv_trailer_header
+id tv_trailer_title
 id tv_vote_average
 id uniform
 id up
@@ -846,10 +873,12 @@ layout notification_template_media_custom
 layout notification_template_part_chronometer
 layout notification_template_part_time
 layout poster_item
+layout reviews_item
 layout select_dialog_item_material
 layout select_dialog_multichoice_material
 layout select_dialog_singlechoice_material
 layout support_simple_spinner_dropdown_item
+layout trailer_item
 menu main
 mipmap ic_launcher
 mipmap ic_launcher_round
@@ -884,14 +913,22 @@ string abc_shareactionprovider_share_with_application
 string abc_toolbar_collapse_description
 string app_name
 string average
+string favorites
 string hello_blank_fragment
+string make_as_favorite
 string movie_details
 string network_error
+string no_favorites
 string no_network
+string no_reviews_avaible
+string no_trailer_avaible
+string remove_favorites
+string reviews
 string search_menu_title
 string sort_by_popularity
 string sort_by_top_rated
 string status_bar_notification_info_overflow
+string trailer
 style AlertDialog_AppCompat
 style AlertDialog_AppCompat_Light
 style Animation_AppCompat_Dialog
@@ -1272,6 +1309,7 @@ styleable MenuView android_windowAnimationStyle android_itemTextAppearance andro
 styleable PopupWindow android_popupBackground android_popupAnimationStyle overlapAnchor
 styleable PopupWindowBackgroundState state_above_anchor
 styleable RecycleListView paddingBottomNoButtons paddingTopNoTitle
+styleable RecyclerView android_orientation android_descendantFocusability fastScrollEnabled fastScrollHorizontalThumbDrawable fastScrollHorizontalTrackDrawable fastScrollVerticalThumbDrawable fastScrollVerticalTrackDrawable layoutManager reverseLayout spanCount stackFromEnd
 styleable SearchView android_focusable android_maxWidth android_inputType android_imeOptions closeIcon commitIcon defaultQueryHint goIcon iconifiedByDefault layout queryBackground queryHint searchHintIcon searchIcon submitBackground suggestionRowLayout voiceIcon
 styleable Spinner android_entries android_popupBackground android_prompt android_dropDownWidth popupTheme
 styleable SwitchCompat android_textOn android_textOff android_thumb showText splitTrack switchMinWidth switchPadding switchTextAppearance thumbTextPadding thumbTint thumbTintMode track trackTint trackTintMode
