@@ -34,7 +34,7 @@ public class DetailsViewActivity extends AppCompatActivity implements FetchTrail
     private String mVoteAverage;
     private String mReleaseDate;
 
-    private static final String APIKEY = "b4f4470bb291ef6088ecd080afe68221";
+    private static final String APIKEY = "";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
