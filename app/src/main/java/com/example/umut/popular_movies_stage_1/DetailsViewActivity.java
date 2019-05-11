@@ -18,7 +18,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.umut.popular_movies_stage_1.database.AppDatabase;
+import com.example.umut.popular_movies_stage_1.database.FavoritesEntry;
 import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 public class DetailsViewActivity extends AppCompatActivity implements FetchTrailers.CallbackPostExecute, FetchReviews.CallbackPostExecute {
 
@@ -34,7 +38,9 @@ public class DetailsViewActivity extends AppCompatActivity implements FetchTrail
     private String mVoteAverage;
     private String mReleaseDate;
 
-    private static final String APIKEY = "";
+    private AppDatabase mDb;
+
+    private static final String APIKEY = "b4f4470bb291ef6088ecd080afe68221";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -54,6 +60,11 @@ public class DetailsViewActivity extends AppCompatActivity implements FetchTrail
         TextView tvReleaseDate = (TextView) findViewById(R.id.tv_release_date);
 
         Intent intent = getIntent();
+
+        mDb = AppDatabase.getAppDatabase(getApplicationContext());
+
+
+
         Movie movie = intent.getParcelableExtra(MainActivityFragment.MOVIE);
         mOriginalTitle = movie.getmOriginalTitle();
         tvOriginalTitle.setText(mOriginalTitle);
@@ -81,6 +92,13 @@ public class DetailsViewActivity extends AppCompatActivity implements FetchTrail
             @Override
             public void onClick(View v) {
                 if (favoriteExists(mId)) {
+
+                    AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            mDb.favoritesDao().delete( mDb.favoritesDao().getFavoritesEntry(mId));
+                        }
+                    });
                     String WHERE_PARAM = FavoritesContentProvider.COLUMN_MOVIE_ID + " = " + mId;
                     getContentResolver().delete(FavoritesContentProvider.CONTENT_URI,
                             WHERE_PARAM, null);
@@ -88,6 +106,16 @@ public class DetailsViewActivity extends AppCompatActivity implements FetchTrail
                             "Removed from Favorites!", Toast.LENGTH_SHORT).show();
                     mFavoriteButton.setText(getString(R.string.make_as_favorite));
                 } else {
+
+                    final FavoritesEntry favoritesEntry = new FavoritesEntry(mId, mOriginalTitle, mPosterPath, mOverview, Double.parseDouble(mVoteAverage), mReleaseDate);
+                    AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            mDb.favoritesDao().insert(favoritesEntry);
+                            finish();
+                        }
+                    });
+
                     ContentValues mValues = new ContentValues();
                     mValues.put(FavoritesContentProvider.COLUMN_MOVIE_ID, mId);
                     mValues.put(FavoritesContentProvider.COLUMN_ORIGINAL_TITLE, mOriginalTitle);
