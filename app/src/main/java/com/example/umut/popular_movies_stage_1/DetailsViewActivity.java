@@ -96,7 +96,7 @@ public class DetailsViewActivity extends AppCompatActivity implements FetchTrail
                     AppExecutors.getInstance().diskIO().execute(new Runnable() {
                         @Override
                         public void run() {
-                            mDb.favoritesDao().delete( mDb.favoritesDao().getFavoritesEntry(mId));
+                            mDb.favoritesDao().deleteFavoritesEntry(mId);
                         }
                     });
                     String WHERE_PARAM = FavoritesContentProvider.COLUMN_MOVIE_ID + " = " + mId;
@@ -107,7 +107,7 @@ public class DetailsViewActivity extends AppCompatActivity implements FetchTrail
                     mFavoriteButton.setText(getString(R.string.make_as_favorite));
                 } else {
 
-                    final FavoritesEntry favoritesEntry = new FavoritesEntry(mId, mOriginalTitle, mPosterPath, mOverview, Double.parseDouble(mVoteAverage), mReleaseDate);
+                    final FavoritesEntry favoritesEntry = new FavoritesEntry(mId, mOriginalTitle, mPosterPath, mOverview, Double.parseDouble(mVoteAverage), mReleaseDate, false);
                     AppExecutors.getInstance().diskIO().execute(new Runnable() {
                         @Override
                         public void run() {

@@ -17,17 +17,24 @@ public class FavoritesEntry{
 
     @ColumnInfo(name = "originalTitle")
     private String originalTitle;
+
     @ColumnInfo(name = "overview")
     private String overview;
+
     @ColumnInfo(name = "posterPath")
     private String posterPath;
+
     @ColumnInfo(name = "voteAverage")
     private Double voteAverage;
+
     @ColumnInfo(name = "releaseDate")
     private String releaseDate;
 
+    @ColumnInfo(name = "isFavorite")
+    private boolean isFavorite;
 
-    public FavoritesEntry(int id, String movieID, String originalTitle, String overview, String posterPath, Double voteAverage, String releaseDate) {
+
+    public FavoritesEntry(int id, String movieID, String originalTitle, String posterPath, String overview, Double voteAverage, String releaseDate, boolean isFavorite) {
         this.id = id;
         this.movieID = movieID;
         this.originalTitle = originalTitle;
@@ -38,7 +45,7 @@ public class FavoritesEntry{
     }
 
     @Ignore
-    public FavoritesEntry( String movieID, String originalTitle, String overview, String posterPath, Double voteAverage, String releaseDate) {
+    public FavoritesEntry( String movieID, String originalTitle, String posterPath, String overview, Double voteAverage, String releaseDate, boolean isFavorite) {
         this.movieID = movieID;
         this.originalTitle  = originalTitle;
         this.overview = overview;
@@ -103,4 +110,13 @@ public class FavoritesEntry{
     public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
     }
+
+    public boolean isFavorite() {
+        return isFavorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        isFavorite = favorite;
+    }
+
 }

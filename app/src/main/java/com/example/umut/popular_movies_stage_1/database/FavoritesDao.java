@@ -17,12 +17,15 @@ import java.util.List;
 @Dao
 public interface FavoritesDao{
 
-    @Query("SELECT * FROM favorites ORDER BY id")
+    @Query("SELECT * FROM favorites")
     List<FavoritesEntry>loadAllFavoritesMovies();
 
 
-    @Query("SELECT * FROM favorites WHERE movieID = :id LIMIT 1")
-    FavoritesEntry getFavoritesEntry(String id);
+    @Query("DELETE FROM favorites WHERE movieID = :id")
+    abstract void deleteFavoritesEntry(String id);
+
+    @Query("SELECT isFavorite FROM favorites WHERE movieId = :id")
+    boolean isFavorite(String id);
 
     @Insert
     void insert(FavoritesEntry favorites);

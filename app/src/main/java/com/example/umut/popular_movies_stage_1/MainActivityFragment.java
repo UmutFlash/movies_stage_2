@@ -21,6 +21,7 @@ import android.widget.GridView;
 import android.widget.TextView;
 
 import com.example.umut.popular_movies_stage_1.database.AppDatabase;
+import com.example.umut.popular_movies_stage_1.database.FavoritesDao;
 import com.example.umut.popular_movies_stage_1.database.FavoritesEntry;
 
 import java.util.List;
@@ -35,6 +36,7 @@ public class MainActivityFragment extends Fragment implements FetchMovies.Callba
 
     private AppDatabase mDb;
     private GridView mGridView;
+    private FavoritesDao favoritesDao;
 
 
 
@@ -46,7 +48,7 @@ public class MainActivityFragment extends Fragment implements FetchMovies.Callba
 
         mGridView = rootView.findViewById(R.id.gridview);
 
-
+        favoritesDao = AppDatabase.getAppDatabase(getContext()).favoritesDao();
 
         if (savedInstanceState == null) {
             getMoviesFromTMDb(POPULARITY);
@@ -76,7 +78,6 @@ public class MainActivityFragment extends Fragment implements FetchMovies.Callba
     }
 
     private void getMoviesFromTMDb(String sortMethod) {
-
         if (isNetworkAvailable()) {
             FetchMovies movieTask = new FetchMovies(APIKEY, this);
             movieTask.execute(sortMethod);
@@ -127,25 +128,26 @@ public class MainActivityFragment extends Fragment implements FetchMovies.Callba
     }
 
     private void getFavorites() {
-
-
         AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override
             public void run() {
-                final List<FavoritesEntry> favoritesMovies = mDb.favoritesDao().loadAllFavoritesMovies();
+                final List<FavoritesEntry> favoritesMovies = favoritesDao.loadAllFavoritesMovies();
                 // We will be able to simplify this once we learn more
                 // about Android Architecture Components
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         //mAdapter.setTasks(tasks);
-
-                        mGridView.setAdapter(new MoviesAdapter(getActivity(), parseMovieArray(favoritesMovies)));
+                        Movie[] favorites = parseMovieArray(favoritesMovies);
+                        if(!favoritesMovies.isEmpty()){
+                            mGridView.setAdapter(new MoviesAdapter(getActivity(), favorites));
+                        }
                     }
                 });
             }
         });
 
+/*
         Uri uri = FavoritesContentProvider.CONTENT_URI;
         Cursor cursor = getActivity().getContentResolver()
                 .query(uri, null, null, null, null);
@@ -178,12 +180,13 @@ public class MainActivityFragment extends Fragment implements FetchMovies.Callba
             }
 
             //mGridView.setAdapter(new MoviesAdapter(getActivity(), movies));
+
         } else {
             AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
             alertDialog.setTitle(getString(R.string.favorites));
             alertDialog.setMessage(getString(R.string.no_favorites));
             alertDialog.show();
-        }
+        }*/
     }
 
     private Movie[] parseMovieArray(List<FavoritesEntry> favoritesMovies ){
