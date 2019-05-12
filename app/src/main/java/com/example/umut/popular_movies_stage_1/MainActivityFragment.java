@@ -1,6 +1,9 @@
 package com.example.umut.popular_movies_stage_1;
 
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -10,6 +13,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -50,6 +54,7 @@ public class MainActivityFragment extends Fragment implements FetchMovies.Callba
 
         favoritesDao = AppDatabase.getAppDatabase(getContext()).favoritesDao();
 
+        getFavorites();
         if (savedInstanceState == null) {
             getMoviesFromTMDb(POPULARITY);
         } else {
@@ -128,24 +133,17 @@ public class MainActivityFragment extends Fragment implements FetchMovies.Callba
     }
 
     private void getFavorites() {
-        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+        MainViewModel mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+        mainViewModel.getFavorites().observe(this, new Observer<List<FavoritesEntry>>() {
             @Override
-            public void run() {
-                final List<FavoritesEntry> favoritesMovies = favoritesDao.loadAllFavoritesMovies();
-                // We will be able to simplify this once we learn more
-                // about Android Architecture Components
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        //mAdapter.setTasks(tasks);
-                        Movie[] favorites = parseMovieArray(favoritesMovies);
-                        if(!favoritesMovies.isEmpty()){
-                            mGridView.setAdapter(new MoviesAdapter(getActivity(), favorites));
-                        }
-                    }
-                });
+            public void onChanged(@Nullable List<FavoritesEntry> favoritesEntries) {
+                Movie[] favorites = parseMovieArray(favoritesEntries);
+                if(favorites.length != 0){
+                    mGridView.setAdapter(new MoviesAdapter(getActivity(), favorites));
+                }
             }
         });
+
 
 /*
         Uri uri = FavoritesContentProvider.CONTENT_URI;

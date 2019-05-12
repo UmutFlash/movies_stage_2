@@ -18,7 +18,7 @@ import java.util.List;
 public interface FavoritesDao{
 
     @Query("SELECT * FROM favorites")
-    List<FavoritesEntry>loadAllFavoritesMovies();
+    LiveData<List<FavoritesEntry>>loadAllFavoritesMovies();
 
 
     @Query("DELETE FROM favorites WHERE movieID = :id")
