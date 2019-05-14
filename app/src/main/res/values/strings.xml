@@ -6,7 +6,6 @@
     <string name="sort_by_popularity">Sort by popularity</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="network_error">Network Error</string>
     <string name="no_network">Wait for network....</string>
     <string name="make_as_favorite">MAKE AS FAVORITE</string>
@@ -14,7 +13,6 @@
     <string name="favorites">Favorites</string>
     <string name="reviews">Reviews</string>
     <string name="trailer">Trailer</string>
-    <string name="no_favorites">No favorites available</string>
     <string name="no_trailer_avaible">No trailers available</string>
     <string name="no_reviews_avaible">No reviews available</string>
 </resources>

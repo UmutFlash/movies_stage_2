@@ -1,15 +1,11 @@
 package com.example.umut.popular_movies_stage_1;
 
-import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
@@ -22,10 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.TextView;
 
-import com.example.umut.popular_movies_stage_1.database.AppDatabase;
-import com.example.umut.popular_movies_stage_1.database.FavoritesDao;
 import com.example.umut.popular_movies_stage_1.database.FavoritesEntry;
 
 import java.util.List;
@@ -39,9 +32,6 @@ public class MainActivityFragment extends Fragment implements FetchMovies.Callba
     private static final String POPULARITY = "popular";
 
     private GridView mGridView;
-    private FavoritesDao favoritesDao;
-
-
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -50,8 +40,6 @@ public class MainActivityFragment extends Fragment implements FetchMovies.Callba
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
         mGridView = rootView.findViewById(R.id.gridview);
-
-        favoritesDao = AppDatabase.getAppDatabase(getContext()).favoritesDao();
 
         getFavorites();
         if (savedInstanceState == null) {
@@ -152,17 +140,11 @@ public class MainActivityFragment extends Fragment implements FetchMovies.Callba
             movies[i] = new Movie();
             String title = favoritesMovies.get(i).getOriginalTitle();
             movies[i].setmOriginalTitle(title);
-
             int id = favoritesMovies.get(i).getMovieID();
             movies[i].setmId(Integer.toString(id));
-
-
             movies[i].setmOverview(favoritesMovies.get(i).getOverview());
-
             movies[i].setmPosterPath(favoritesMovies.get(i).getPosterPath());
-
             movies[i].setmVoteAverage(favoritesMovies.get(i).getVoteAverage());
-
             movies[i].setmReleaseDate(favoritesMovies.get(i).getReleaseDate());
         }
        return movies;
