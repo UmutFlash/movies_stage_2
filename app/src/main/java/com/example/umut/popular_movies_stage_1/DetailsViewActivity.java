@@ -38,7 +38,7 @@ public class DetailsViewActivity extends AppCompatActivity implements FetchTrail
     private AppDatabase mDb;
     private boolean isFavorite = false;
 
-    private static final String APIKEY = "b4f4470bb291ef6088ecd080afe68221";
+    private static final String APIKEY = "";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

@@ -27,7 +27,7 @@ public class MainActivityFragment extends Fragment implements FetchMovies.Callba
 
 
     public static final String MOVIE = "MOVIE";
-    private static final String APIKEY = "b4f4470bb291ef6088ecd080afe68221";
+    private static final String APIKEY = "";
     private static final String TOP_RATED = "top_rated";
     private static final String POPULARITY = "popular";
 
