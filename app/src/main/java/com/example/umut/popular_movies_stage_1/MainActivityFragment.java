@@ -38,7 +38,6 @@ public class MainActivityFragment extends Fragment implements FetchMovies.Callba
     private static final String TOP_RATED = "top_rated";
     private static final String POPULARITY = "popular";
 
-    private AppDatabase mDb;
     private GridView mGridView;
     private FavoritesDao favoritesDao;
 
@@ -107,7 +106,6 @@ public class MainActivityFragment extends Fragment implements FetchMovies.Callba
 
     @Override
     public void onFetchMoviesTask(Movie[] movies) {
-
         mGridView.setAdapter(new MoviesAdapter(getActivity(), movies));
     }
 
@@ -140,55 +138,14 @@ public class MainActivityFragment extends Fragment implements FetchMovies.Callba
                 Movie[] favorites = parseMovieArray(favoritesEntries);
                 if(favorites.length != 0){
                     mGridView.setAdapter(new MoviesAdapter(getActivity(), favorites));
+                }else{
+                    mGridView.setAdapter(null);
                 }
             }
         });
-
-
-/*
-        Uri uri = FavoritesContentProvider.CONTENT_URI;
-        Cursor cursor = getActivity().getContentResolver()
-                .query(uri, null, null, null, null);
-        if (cursor != null && cursor.moveToFirst()) { //If there are existing favorited items
-            int resultsLength = cursor.getCount();
-            Movie[] movies = new Movie[resultsLength];
-            for (int i = 0; i < resultsLength; i++) {
-                movies[i] = new Movie();
-                String title = cursor
-                        .getString(cursor.getColumnIndex(FavoritesContentProvider.COLUMN_ORIGINAL_TITLE));
-                movies[i].setmOriginalTitle(title);
-
-                String id = cursor
-                        .getString(cursor.getColumnIndex(FavoritesContentProvider.COLUMN_MOVIE_ID));
-                movies[i].setmId(id);
-
-
-                movies[i].setmOverview(cursor
-                        .getString(cursor.getColumnIndex(FavoritesContentProvider.COLUMN_OVERVIEW)));
-
-                movies[i].setmPosterPath(cursor
-                        .getString(cursor.getColumnIndex(FavoritesContentProvider.COLUMN_POSTER_PATH)));
-
-                movies[i].setmVoteAverage(cursor
-                        .getDouble(cursor.getColumnIndex(FavoritesContentProvider.COLUMN_VOTE_AVERAGE)));
-
-                movies[i].setmReleaseDate(cursor
-                        .getString(cursor.getColumnIndex(FavoritesContentProvider.COLUMN_RELEASE_DATE)));
-                cursor.moveToNext();
-            }
-
-            //mGridView.setAdapter(new MoviesAdapter(getActivity(), movies));
-
-        } else {
-            AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
-            alertDialog.setTitle(getString(R.string.favorites));
-            alertDialog.setMessage(getString(R.string.no_favorites));
-            alertDialog.show();
-        }*/
     }
 
     private Movie[] parseMovieArray(List<FavoritesEntry> favoritesMovies ){
-
         int resultsLength = favoritesMovies.size();
         Movie[] movies = new Movie[resultsLength];
         for (int i = 0; i < resultsLength; i++) {
@@ -196,8 +153,8 @@ public class MainActivityFragment extends Fragment implements FetchMovies.Callba
             String title = favoritesMovies.get(i).getOriginalTitle();
             movies[i].setmOriginalTitle(title);
 
-            String id = favoritesMovies.get(i).getMovieID();
-            movies[i].setmId(id);
+            int id = favoritesMovies.get(i).getMovieID();
+            movies[i].setmId(Integer.toString(id));
 
 
             movies[i].setmOverview(favoritesMovies.get(i).getOverview());

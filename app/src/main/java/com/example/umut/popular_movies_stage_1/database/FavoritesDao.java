@@ -20,12 +20,21 @@ public interface FavoritesDao{
     @Query("SELECT * FROM favorites")
     LiveData<List<FavoritesEntry>>loadAllFavoritesMovies();
 
+    @Query("SELECT * FROM favorites")
+    List<FavoritesEntry> loadAllFavorites();
+
 
     @Query("DELETE FROM favorites WHERE movieID = :id")
     abstract void deleteFavoritesEntry(String id);
 
-    @Query("SELECT isFavorite FROM favorites WHERE movieId = :id")
-    boolean isFavorite(String id);
+    @Query("SELECT * FROM favorites WHERE movieId = :id")
+    FavoritesEntry getFavorite(int id);
+
+    @Query("SELECT isFavorite FROM favorites WHERE movieID = :movieId")
+    boolean isFavorite(int movieId);
+
+    @Query("SELECT COUNT(isFavorite) FROM favorites WHERE movieID = :movieId")
+    int getCount(int movieId);
 
     @Insert
     void insert(FavoritesEntry favorites);

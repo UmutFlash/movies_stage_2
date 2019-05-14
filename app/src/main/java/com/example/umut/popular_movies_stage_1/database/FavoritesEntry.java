@@ -13,7 +13,7 @@ public class FavoritesEntry{
     private int id;
 
     @ColumnInfo(name = "movieID")
-    private String movieID;
+    private int movieID;
 
     @ColumnInfo(name = "originalTitle")
     private String originalTitle;
@@ -34,7 +34,7 @@ public class FavoritesEntry{
     private boolean isFavorite;
 
 
-    public FavoritesEntry(int id, String movieID, String originalTitle, String posterPath, String overview, Double voteAverage, String releaseDate, boolean isFavorite) {
+    public FavoritesEntry(int id, int movieID, String originalTitle, String posterPath, String overview, Double voteAverage, String releaseDate, boolean isFavorite) {
         this.id = id;
         this.movieID = movieID;
         this.originalTitle = originalTitle;
@@ -45,7 +45,7 @@ public class FavoritesEntry{
     }
 
     @Ignore
-    public FavoritesEntry( String movieID, String originalTitle, String posterPath, String overview, Double voteAverage, String releaseDate, boolean isFavorite) {
+    public FavoritesEntry( int movieID, String originalTitle, String posterPath, String overview, Double voteAverage, String releaseDate, boolean isFavorite) {
         this.movieID = movieID;
         this.originalTitle  = originalTitle;
         this.overview = overview;
@@ -63,11 +63,11 @@ public class FavoritesEntry{
         this.id = id;
     }
 
-    public String getMovieID() {
+    public int getMovieID() {
         return movieID;
     }
 
-    public void setMovieID(String movieID) {
+    public void setMovieID(int movieID) {
         this.movieID = movieID;
     }
 
